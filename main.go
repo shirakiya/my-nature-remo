@@ -15,10 +15,9 @@ import (
 const (
 	NATURE_DEVICE_URL = "https://api.nature.global/1/devices"
 
-	NATURE_ACCESS_TOKEN_ENV = "NATURE_ACCESS_TOKEN"
-	MACKEREL_API_KEY_ENV    = "MACKEREL_API_KEY"
-
-	SERVICE_NAME = "my-nature-remo"
+	NATURE_ACCESS_TOKEN_ENV   = "NATURE_ACCESS_TOKEN"
+	MACKEREL_API_KEY_ENV      = "MACKEREL_API_KEY"
+	MACKEREL_SERVICE_NAME_ENV = "MACKEREL_SERVICE_NAME"
 )
 
 type Device struct {
@@ -52,6 +51,7 @@ func main() {
 
 	natureToken := mustGetEnv(NATURE_ACCESS_TOKEN_ENV)
 	mackerelApiKey := mustGetEnv(MACKEREL_API_KEY_ENV)
+	mackerelServiceName := mustGetEnv(MACKEREL_SERVICE_NAME_ENV)
 
 	req, err := http.NewRequestWithContext(ctx, "GET", NATURE_DEVICE_URL, nil)
 	if err != nil {
@@ -89,7 +89,7 @@ func main() {
 	}
 
 	mackerelClient := mackerel.NewClient(mackerelApiKey)
-	if err := mackerelClient.PostServiceMetricValues(SERVICE_NAME, metricValues); err != nil {
+	if err := mackerelClient.PostServiceMetricValues(mackerelServiceName, metricValues); err != nil {
 		log.Fatal(err)
 	}
 
