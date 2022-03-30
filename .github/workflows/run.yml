@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUN_CONTEXT:
+      NATURE_ACCESS_TOKEN: ${{ secrets.NATURE_ACCESS_TOKEN }}
+      MACKEREL_API_KEY: ${{ secrets.MACKEREL_API_KEY }}
+      MACKEREL_SERVICE_NAME: ${{ secrets.MACKEREL_SERVICE_NAME }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
