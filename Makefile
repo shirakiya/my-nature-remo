@@ -9,5 +9,8 @@ run:
 fmt:
 	$(RUN_CONTEXT) go fmt ./...
 
+lint:
+	$(RUN_CONTEXT) golangci-lint run
+
 mod/tidy:
 	$(RUN_CONTEXT) go mod tidy
