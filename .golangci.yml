@@ -2,4 +2,5 @@
 linters:
   disable-all: true
   enable:
-    - revive
+    # TODO(shirakiya): Select linters
+    # - revive
