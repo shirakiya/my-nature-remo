@@ -1,7 +1,10 @@
 version: "3.9"
 services:
   go:
-    image: golang:1.19.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-nature-remo-go
     container_name: my-nature-remo-go
     working_dir: /go/src
     volumes:
