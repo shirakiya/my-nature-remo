@@ -2,7 +2,7 @@ module github.com/shirakiya/my-nature-remo
 
 go 1.19
 
-require github.com/mackerelio/mackerel-client-go v0.22.0
+require github.com/mackerelio/mackerel-client-go v0.23.0
 
 require (
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
