@@ -2,7 +2,7 @@ module github.com/shirakiya/my-nature-remo
 
 go 1.21.0
 
-toolchain go1.24.1
+toolchain go1.24.2
 
 require github.com/mackerelio/mackerel-client-go v0.36.0
 
