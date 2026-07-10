@@ -4,6 +4,6 @@ go 1.25.0
 
 toolchain go1.26.5
 
-require github.com/mackerelio/mackerel-client-go v0.43.0
+require github.com/mackerelio/mackerel-client-go v0.44.0
 
 require github.com/pkg/errors v0.9.1
