@@ -1,8 +1,10 @@
 {
-  "extends": ["config:base"],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
   "automerge": true,
-  "labels": ["renovate"],
+  "automergeStrategy": "squash",
+  "addLabels": ["renovate"],
   "postUpdateOptions": ["gomodTidy"],
-  "schedule": ["after 3pm and before 7pm"],
-  "timezone": "Asia/Tokyo"
+  "prHourlyLimit": 0,
+  "rangeStrategy": "pin"
 }
