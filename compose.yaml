@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   go:
     build:
@@ -8,11 +7,10 @@ services:
     container_name: my-nature-remo-go
     working_dir: /go/src
     volumes:
-      - .:/go/src/
+      - .:/go/src
     environment:
-      - RUN_CONTEXT=
-      - NATURE_ACCESS_TOKEN
-      - MACKEREL_API_KEY
-      - MACKEREL_SERVICE_NAME=my-nature-remo
+      RUN_CONTEXT: ""
+      NATURE_ACCESS_TOKEN:
+      MACKEREL_API_KEY:
+      MACKEREL_SERVICE_NAME: ${MACKEREL_SERVICE_NAME:-my-nature-remo}
     command: go run main.go
-
