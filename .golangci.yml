@@ -3,12 +3,44 @@ version: "2"
 linters:
   default: none
   enable:
+    - bodyclose
+    - embeddedstructfieldcheck
     - errcheck
-    - misspell
+    - funcorder
+    - gocheckcompilerdirectives
+    - gocognit
+    - gocritic
+    - goprintffuncname
+    - gosec
     - govet
     - ineffassign
+    - lll
+    - mirror
+    - misspell
+    - modernize
+    - nakedret
+    - revive
     - staticcheck
+    - tagliatelle
+    - unconvert
     - unused
+    - wsl_v5
+  settings:
+    funcorder:
+      struct-method: false
+    goconst:
+      min-len: 2
+      min-occurrences: 3
+      ignore-tests: true
+    lll:
+      line-length: 120
+    tagliatelle:
+      case:
+        rules:
+          json: camel
+          yaml: snake
+          bson: camel
+        use-field-name: true
   exclusions:
     generated: strict
     presets:
