@@ -21,12 +21,12 @@ linters:
 
 formatters:
   enable:
-    - gofmt
+    - gofumpt
     - goimports
   settings:
     goimports:
       local-prefixes:
-        - github.com/graffer-inc/go-commons
+        - github.com/shirakiya/my-nature-remo
 
 issues:
   max-issues-per-linter: 0
