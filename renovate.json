@@ -6,5 +6,21 @@
   "addLabels": ["renovate"],
   "postUpdateOptions": ["gomodTidy"],
   "prHourlyLimit": 0,
-  "rangeStrategy": "pin"
+  "rangeStrategy": "pin",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": [
+        "(_VERSION)? ?(: |= |:= )(?<currentValue>.+) +# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.+)\\n",
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.+)\\n(ARG|ENV) .+_VERSION( |: |=)(?<currentValue>.+)"
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDepNames": ["golangci/golangci-lint"],
+      "groupName": "golangci-lint"
+    }
+  ]
 }

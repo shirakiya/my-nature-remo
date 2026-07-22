@@ -7,7 +7,7 @@ run:
 	$(RUN_CONTEXT) go run main.go
 
 fmt:
-	$(RUN_CONTEXT) go fmt ./...
+	$(RUN_CONTEXT) golangci-lint fmt
 
 lint:
 	$(RUN_CONTEXT) golangci-lint run
