@@ -14,15 +14,16 @@ import (
 )
 
 const (
-	NATURE_DEVICE_URL = "https://api.nature.global/1/devices"
+	NatureDeviceURL = "https://api.nature.global/1/devices"
 
-	NATURE_ACCESS_TOKEN_ENV   = "NATURE_ACCESS_TOKEN"
-	MACKEREL_API_KEY_ENV      = "MACKEREL_API_KEY"
-	MACKEREL_SERVICE_NAME_ENV = "MACKEREL_SERVICE_NAME"
+	NatureAccessTokenEnv   = "NATURE_ACCESS_TOKEN"
+	MackerelAPIKeyEnv      = "MACKEREL_API_KEY" //nolint:gosec // env var name, not a credential
+	MackerelServiceNameEnv = "MACKEREL_SERVICE_NAME"
 )
 
+//nolint:tagliatelle // field names follow the Nature Remo API response format
 type Device struct {
-	Id          string `json:"id"`
+	ID          string `json:"id"`
 	Name        string `json:"name"`
 	NewestEvent struct {
 		Hu struct {
@@ -46,16 +47,17 @@ func mustGetEnv(key string) string {
 }
 
 func run(ctx context.Context) error {
-	natureToken := mustGetEnv(NATURE_ACCESS_TOKEN_ENV)
-	mackerelApiKey := mustGetEnv(MACKEREL_API_KEY_ENV)
-	mackerelServiceName := mustGetEnv(MACKEREL_SERVICE_NAME_ENV)
+	natureToken := mustGetEnv(NatureAccessTokenEnv)
+	mackerelAPIKey := mustGetEnv(MackerelAPIKeyEnv)
+	mackerelServiceName := mustGetEnv(MackerelServiceNameEnv)
 
-	req, err := http.NewRequestWithContext(ctx, "GET", NATURE_DEVICE_URL, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", NatureDeviceURL, nil)
 	if err != nil {
 		return errors.Wrap(err, "error was found NewRequestWithContext")
 	}
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", natureToken))
+
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return errors.Wrap(err, "error in requesting to Nature")
@@ -63,10 +65,12 @@ func run(ctx context.Context) error {
 	defer resp.Body.Close()
 
 	var devices []Device
+
 	err = json.NewDecoder(resp.Body).Decode(&devices)
 	if err != nil {
 		return errors.Wrap(err, "decode error")
 	}
+
 	if len(devices) != 1 {
 		return errors.New("device count is not 1")
 	}
@@ -74,18 +78,18 @@ func run(ctx context.Context) error {
 	device := devices[0]
 	metricValues := []*mackerel.MetricValue{
 		{
-			Name:  fmt.Sprintf("%s.temperature", device.Id),
+			Name:  fmt.Sprintf("%s.temperature", device.ID),
 			Time:  device.NewestEvent.Te.CreatedAt.Unix(),
 			Value: device.NewestEvent.Te.Val,
 		},
 		{
-			Name:  fmt.Sprintf("%s.humidity", device.Id),
+			Name:  fmt.Sprintf("%s.humidity", device.ID),
 			Time:  device.NewestEvent.Hu.CreatedAt.Unix(),
 			Value: device.NewestEvent.Hu.Val,
 		},
 	}
 
-	mackerelClient := mackerel.NewClient(mackerelApiKey)
+	mackerelClient := mackerel.NewClient(mackerelAPIKey)
 	if err := mackerelClient.PostServiceMetricValues(mackerelServiceName, metricValues); err != nil {
 		return errors.Wrap(err, "error in requesting to Mackerel")
 	}
